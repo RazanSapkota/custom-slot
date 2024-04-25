@@ -17,35 +17,36 @@ function App() {
     (fn: (evt?: React.MouseEvent<HTMLDivElement, MouseEvent>) => void) =>
     (evt?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       if (!evt) return;
-      const clickedElement = evt.target as HTMLElement;
+
+      const clickedElement = evt.target as HTMLElement; // Get the clicked element
       const parentElement = evt?.currentTarget; // The parent element
+      const prevElement = parentElement.children.item(prevIndex.current);
+      const prevContentHeight =
+        prevElement?.children.item(1)?.getBoundingClientRect().height || 0;
 
       const closestChild =
         clickedElement.closest<HTMLElement>("#parent > *") || clickedElement;
-
+      const selectedOffset = closestChild.offsetTop;
       const children = Array.from(parentElement.children);
-
-      console.log(parentElement, children);
 
       // Find the index of the clicked child
       const currentIndex = children.indexOf(closestChild);
-      console.log(currentIndex);
+
+      //console.log(currentIndex);
       if (currentIndex <= prevIndex.current) {
+        prevIndex.current = currentIndex;
         return fn(evt);
       }
 
-      const prevContentHeight =
-        parentElement.children.item(prevIndex.current)?.clientHeight || 0;
-      const selectedOffset = closestChild.offsetTop;
-
-      console.log(selectedOffset - prevContentHeight + 52, selectedOffset);
-
-      console.log(evt?.currentTarget.children.item(0)?.getBoundingClientRect());
+      //console.log(selectedOffset - prevContentHeight + 52, selectedOffset);
 
       scrollTo({
-        top: 1001,
+        top: selectedOffset - prevContentHeight,
         behavior: "smooth",
       });
+
+      prevIndex.current = currentIndex;
+
       fn(evt);
     };
 
@@ -76,10 +77,11 @@ function App() {
         onClick={handleAccordionClick(handleClick)}
         className="grid gap-9"
         id="parent"
+        defaultValue="item-1"
       >
         <AccordionItem value="item-1" id="trigger-1">
           <AccordionTrigger>Is it accessible?</AccordionTrigger>
-          <AccordionContent>
+          <AccordionContent className="accordion-content">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam
             quaerat architecto similique, vero consectetur nesciunt fuga impedit
             amet, ut atque non voluptatibus molestiae? Ullam dolorem laboriosam
@@ -119,7 +121,47 @@ function App() {
         </AccordionItem>
         <AccordionItem value="item-2">
           <AccordionTrigger id="trigger-2">Is it accessible?</AccordionTrigger>
-          <AccordionContent>
+          <AccordionContent className="content">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam
+            quaerat architecto similique, vero consectetur nesciunt fuga impedit
+            amet, ut atque non voluptatibus molestiae? Ullam dolorem laboriosam
+            sapiente a sequi architecto. Iusto, numquam dolore animi aut rerum
+            voluptates, dolor temporibus harum incidunt repudiandae nam
+            accusantium corrupti minima. Quos sequi accusamus est odit
+            voluptatem! Voluptatibus reiciendis assumenda, modi cumque aut
+            accusantium totam? Molestiae delectus nisi esse dolorem quisquam
+            fugiat suscipit a quas repellat tempora repellendus quod ex, maxime,
+            dolores consequatur dolorum nihil et explicabo enim dicta laudantium
+            labore. Amet delectus consequatur veritatis! Voluptatem architecto,
+            ipsa sunt quod hic impedit nesciunt voluptates enim expedita, atque,
+            quia temporibus quibusdam numquam. Recusandae, illum dignissimos
+            ipsum possimus neque in, culpa facere natus debitis, maxime est
+            voluptate. Perspiciatis sunt repudiandae nihil tempore est commodi
+            quod. Dignissimos, iusto nemo, expedita alias eos saepe quidem culpa
+            necessitatibus a tenetur et ut est, quam enim qui! Ab labore
+            voluptatem cumque? Deserunt adipisci, quis qui quam soluta molestiae
+            debitis dolores modi repudiandae voluptate molestias magni sed ullam
+            quasi quos consequuntur cum ipsa recusandae facere labore, obcaecati
+            totam atque! Ut, magni pariatur. Iure accusamus esse iusto quas odio
+            corporis ab minus et, nemo distinctio nostrum rem atque facilis,
+            magnam at. Cupiditate beatae repudiandae molestias odit consectetur
+            at totam similique, minus dolores nobis. Magnam perspiciatis quos
+            voluptates consectetur expedita, deserunt reprehenderit dolores,
+            quam doloremque vero consequuntur hic recusandae quidem libero,
+            necessitatibus a excepturi possimus error maiores dolorum dicta!
+            Molestias sit eveniet laboriosam obcaecati. Natus alias sint, sunt
+            ut reiciendis eius incidunt delectus culpa sed molestiae voluptatem
+            sit omnis voluptas blanditiis quisquam deleniti praesentium. Libero
+            voluptatem quas aliquam fugiat beatae quos animi, a obcaecati. Earum
+            dignissimos possimus, libero eveniet laboriosam eum praesentium,
+            velit ab quos beatae vel! Voluptatem, dolorem fugiat. Libero,
+            aliquam corrupti quibusdam assumenda natus qui omnis cupiditate
+            voluptatibus. Ducimus eveniet possimus ex.
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-3" id="trigger-1">
+          <AccordionTrigger>Is it accessible?</AccordionTrigger>
+          <AccordionContent className="content">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam
             quaerat architecto similique, vero consectetur nesciunt fuga impedit
             amet, ut atque non voluptatibus molestiae? Ullam dolorem laboriosam
