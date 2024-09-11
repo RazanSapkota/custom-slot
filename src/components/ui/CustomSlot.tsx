@@ -16,9 +16,14 @@ const CustomSlot = React.forwardRef<HTMLElement, CustomSlotProps>(
       });
     }
 
+    if (typeof children === "string") {
+      return <>{children}</>;
+    }
+
+    //there are many reasons for the clildren being invalid, and one is that there are more than one child,so this below code is to handle that
     return React.Children.count(children) > 1
       ? React.Children.only(null)
-      : children;
+      : null;
   }
 );
 
